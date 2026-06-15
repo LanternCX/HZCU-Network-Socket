@@ -1,0 +1,11 @@
+[project]
+name = "hzcu-socket"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "loguru>=0.7.3",
+    "questionary>=2.1.1",
+    "rich>=15.0.0",
+]
