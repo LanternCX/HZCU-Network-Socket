@@ -1,5 +1,6 @@
 """Multi-person Chat Room Client — Task 2."""
 
+import argparse
 import socket
 import threading
 
@@ -21,6 +22,13 @@ ENCODING = "utf-8"
 BUFFER_SIZE = 4096
 
 
+def parse_server_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Task 2 chat room client")
+    parser.add_argument("--server", default=HOST, help="server host or IP address")
+    parser.add_argument("--port", type=int, default=PORT, help="server port")
+    return parser.parse_args(argv)
+
+
 def receive_messages(sock: socket.socket) -> None:
     """Continuously receive and display messages from the server."""
     while True:
@@ -35,11 +43,12 @@ def receive_messages(sock: socket.socket) -> None:
     logger.info("Disconnected from server.")
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    args = parse_server_args(argv)
     sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     try:
-        sock.connect((HOST, PORT))
-        logger.info(f"Connected to {HOST}:{PORT}")
+        sock.connect((args.server, args.port))
+        logger.info(f"Connected to {args.server}:{args.port}")
     except ConnectionRefusedError:
         logger.error("Cannot connect to the server. Is it running?")
         return

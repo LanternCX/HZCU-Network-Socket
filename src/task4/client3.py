@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+import argparse
 import asyncio
 import base64
 import json
@@ -36,6 +37,13 @@ PORT = 9003
 ENCODING = "utf-8"
 BUFFER_SIZE = 4096
 FILE_COMMAND = "/file"
+
+
+def parse_server_args(argv: list[str] | None = None) -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Task 4 web client TCP server gateway")
+    parser.add_argument("--server", default=HOST, help="TCP server host or IP address")
+    parser.add_argument("--port", type=int, default=PORT, help="TCP server port")
+    return parser.parse_args(argv)
 
 
 @dataclass(frozen=True)
@@ -460,7 +468,12 @@ def resolve_web_path(request_path: str) -> Path:
     return candidate
 
 
-def main() -> None:
+def main(argv: list[str] | None = None) -> None:
+    global HOST, PORT
+
+    args = parse_server_args(argv)
+    HOST = args.server
+    PORT = args.port
     asyncio.run(run_websocket_server())
 
 
