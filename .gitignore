@@ -4,7 +4,6 @@
 *.doc
 
 .venv/
-.serena/
 __pycache__/
 *.pyc
 node_modules/
